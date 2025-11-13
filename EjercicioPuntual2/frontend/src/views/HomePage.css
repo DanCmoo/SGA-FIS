@@ -1,0 +1,59 @@
+.home-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.home-header {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 20px 40px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.logo svg {
+    width: 32px;
+    height: 32px;
+    color: #667eea;
+}
+
+.home-main {
+    flex: 1;
+    padding: 20px;
+}
+
+.home-footer {
+    background: white;
+    padding: 20px;
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.home-footer p {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .home-header {
+        padding: 16px 20px;
+    }
+
+    .logo {
+        font-size: 1.25rem;
+    }
+
+    .logo svg {
+        width: 28px;
+        height: 28px;
+    }
+}

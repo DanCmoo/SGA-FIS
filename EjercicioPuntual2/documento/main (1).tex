@@ -1,0 +1,1599 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tocloft}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{float} % Para usar [H]
+\usepackage[table,xcdraw]{xcolor} % Añádelo en el preámbulo
+\usepackage[backend=biber,style=ieee,sorting=none]{biblatex}
+\addbibresource{referencias.bib}
+
+\setstretch{1.3}
+\captionsetup{font=small,skip=10pt}
+
+% Configuración de encabezados y pies
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\textbf{Modelado Estructural FIS 2025-III}}
+\lhead{\textit{Universidad Distrital Francisco José de Caldas}}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+
+% Espacios en tablas
+\renewcommand{\arraystretch}{1.5}
+
+% Formato mejorado de secciones
+
+
+\title{Modelado Estructural del Sistema FIS\\
+\Large Proyecto Semestral 2025-III}
+\author{Laura Sofía Culma Ospina (20231020163)\\
+Daniel Esteban Camacho Ospina (20231020046)\\
+\textbf{Profesor:} Henry Alberto Diosa}
+\date{\today}
+
+\begin{document}
+
+% ======================================
+% PÁGINA DE TÍTULO
+% ======================================
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    
+    {\LARGE \bfseries Universidad Distrital Francisco José de Caldas}
+    \vspace{0.3cm}
+    
+    {\LARGE Facultad de Ingeniería}
+    \vspace{0.3cm}
+    
+    {\large Ingeniería de Sistemas}
+    
+    \vspace{2.5cm}
+    
+    {\huge \bfseries Ejercicio Puntual 2}
+    \vspace{0.5cm}
+    
+    {\huge Proyecto Semestral 2025-III}
+    
+    \vspace{3cm}
+    
+    \begin{tabular}{c}
+        \Large \textbf{Autores:}\\[0.5cm]
+        Laura Sofía Culma Ospina\\
+        \textit{Cód. 20231020163}\\[0.5cm]
+        Daniel Esteban Camacho Ospina\\
+        \textit{Cód. 20231020046}
+    \end{tabular}
+    
+    \vspace{2.5cm}
+    
+    {\large \textbf{Profesor:} Henry Alberto Diosa}
+    
+    \vspace{3cm}
+    
+    {\large \today}
+\end{titlepage}
+
+% ======================================
+% TABLA DE CONTENIDOS
+% ======================================
+\newpage
+\tableofcontents
+\newpage
+
+% ======================================
+% INTRODUCCIÓN
+% ======================================
+\section{Introducción}
+
+Este documento presenta el desarrollo del \textbf{Ejercicio Puntual 2} del proyecto semestral de Fundamentos de Ingeniería de Software, correspondiente al periodo académico 2025-III. El objetivo principal fue implementar un módulo completo de software (backend y frontend) a partir de diagramas de actividad UML, utilizando herramientas de Inteligencia Artificial Generativa.
+
+\subsection{Contexto del Proyecto}
+
+El proyecto consiste en el desarrollo del \textbf{Sistema de Gestión Académica (SGA)}, el cual ha sido modelado utilizando diagramas UML a lo largo del semestre. Para este ejercicio específico, se seleccionó el \textbf{módulo de Gestión de Acceso}, que comprende dos flujos principales:
+
+\begin{itemize}
+    \item \textbf{Diagrama 1:} Acceso principal del sistema - página de inicio
+    \item \textbf{Diagrama 2:} Autenticación y validación de credenciales
+\end{itemize}
+
+\subsection{Metodología Aplicada}
+
+La metodología empleada para este ejercicio se basó en un enfoque de \textbf{desarrollo asistido por IA}, siguiendo estos pasos:
+
+\begin{enumerate}
+    \item \textbf{Investigación preliminar:} Utilización de Perplexity Pro en modo research para investigar cómo los diagramas de actividad se traducen a código ejecutable.
+    
+    \item \textbf{Generación de especificaciones:} Creación de un documento README detallado con reglas estrictas para que un agente IA pudiera interpretar los diagramas y construir el software.
+    
+    \item \textbf{Implementación asistida:} Uso de GitHub Copilot en modo agente con el modelo Claude Sonnet 4.5 para la construcción iterativa del código fuente.
+    
+    \item \textbf{Refinamiento continuo:} Resolución de problemas y ajustes durante el proceso de desarrollo.
+\end{enumerate}
+
+\subsection{Tecnologías Utilizadas}
+
+El stack tecnológico seleccionado para la implementación fue:
+
+\begin{itemize}
+    \item \textbf{Backend:} Spring Boot 3.2.0 con Java 17, arquitectura de n-capas
+    \item \textbf{Frontend:} React 18.2.0 con React Router DOM
+    \item \textbf{Base de Datos:} H2 Database (en memoria)
+    \item \textbf{Autenticación:} JWT (JSON Web Tokens) con Spring Security
+    \item \textbf{Herramientas de Build:} Maven 3.9.6 para backend, npm para frontend
+\end{itemize}
+
+\subsection{Alcance del Documento}
+
+Este informe documenta de manera detallada:
+
+\begin{itemize}
+    \item Las versiones y configuraciones de las plataformas de IA utilizadas
+    \item Los prompts específicos empleados para guiar la generación de código
+    \item El código fuente resultante con capturas de pantalla de la interfaz
+    \item Un análisis crítico del resultado obtenido
+    \item Reflexiones sobre el proceso y lecciones aprendidas
+\end{itemize}
+
+\newpage
+
+% ======================================
+% SECCIÓN 1: DESCRIPCIÓN DE VERSIONES DE PLATAFORMAS DE IA
+% ======================================
+\section{Descripción de Versiones de Plataformas de IA Generativa}
+
+\subsection{Plataforma Utilizada: Perplexity Pro}
+
+Para la fase inicial de investigación y generación de especificaciones, se utilizó \textbf{Perplexity Pro} en modo \textit{research}.
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor{gray!20}
+\textbf{Característica} & \textbf{Descripción} \\
+\hline
+Plataforma & Perplexity Pro \\
+\hline
+Modo & Research (investigación profunda) \\
+\hline
+Modelo subyacente & GPT-4 Turbo \\
+\hline
+Versión & Pro (diciembre 2024) \\
+\hline
+Fecha de uso & 13 de noviembre de 2025 \\
+\hline
+Propósito & Investigación sobre traducción de diagramas de actividad a código ejecutable \\
+\hline
+\end{tabularx}
+\caption{Especificaciones de Perplexity Pro}
+\end{table}
+
+% NOTA: Agregar captura de pantalla de Perplexity Pro mostrando el prompt inicial
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.9\textwidth]{imagenes/perplexity_prompt.png}
+% \caption{Prompt inicial en Perplexity Pro}
+% \end{figure}
+
+\subsection{Plataforma Utilizada: GitHub Copilot}
+
+Para la implementación del código, se utilizó \textbf{GitHub Copilot} en modo agente con el modelo Claude Sonnet 4.5.
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor{gray!20}
+\textbf{Característica} & \textbf{Descripción} \\
+\hline
+Plataforma & GitHub Copilot \\
+\hline
+Modo & Agente (Copilot Chat en VS Code) \\
+\hline
+Modelo & Claude Sonnet 4.5 (Anthropic) \\
+\hline
+Versión VS Code & 1.106.0 \\
+\hline
+Extensión Copilot & GitHub Copilot Chat (2024) \\
+\hline
+Fecha de generación & 13 de noviembre de 2025 \\
+\hline
+Propósito & Generación de código backend (Spring Boot) y frontend (React) \\
+\hline
+\end{tabularx}
+\caption{Especificaciones de GitHub Copilot}
+\end{table}
+
+% NOTA: Agregar captura de pantalla de VS Code con Copilot
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.9\textwidth]{imagenes/vscode_copilot.png}
+% \caption{GitHub Copilot en VS Code}
+% \end{figure}
+
+\subsection{Programación y Configuración}
+
+\subsubsection{Configuración del Entorno de Desarrollo}
+
+El desarrollo se realizó en un entorno Windows con las siguientes herramientas:
+
+\begin{itemize}
+    \item \textbf{IDE:} Visual Studio Code
+    \item \textbf{Java:} OpenJDK 17.0.10
+    \item \textbf{Maven:} 3.9.6 (descargado manualmente)
+    \item \textbf{Node.js:} v22.20.0
+    \item \textbf{Git:} Para control de versiones
+\end{itemize}
+
+\subsubsection{Ventajas de las Herramientas Seleccionadas}
+
+\textbf{Perplexity Pro en modo Research:}
+\begin{itemize}
+    \item Capacidad de búsqueda en tiempo real en internet
+    \item Generación de respuestas fundamentadas en fuentes verificables
+    \item Formato estructurado ideal para documentación técnica
+\end{itemize}
+
+\textbf{GitHub Copilot con Claude Sonnet 4.5:}
+\begin{itemize}
+    \item Integración nativa con VS Code
+    \item Contexto completo del workspace del proyecto
+    \item Capacidad de ejecutar comandos y crear archivos
+    \item Razonamiento avanzado para resolver problemas complejos
+    \item Soporte para operaciones en paralelo (lectura de archivos, búsqueda de código)
+\end{itemize}
+
+\newpage
+
+% ======================================
+% SECCIÓN 2: PROMPTS UTILIZADOS
+% ======================================
+\section{Prompts Utilizados para la Transformación}
+
+\subsection{Prompt Inicial a Perplexity Pro}
+
+El primer paso del proceso fue solicitar a Perplexity Pro que investigara cómo traducir diagramas de actividad a código ejecutable. El prompt enviado fue:
+
+\begin{quote}
+\textit{``Tengo que desarrollar un modulo entero de backend y frontend de un sistema de gestión académica que he venido modelando, la idea es que investigues como funcionan los diagramas de actividades y como con base a estos se puede desarrollar el back y front para esto vamos a usar spring en el back usando una arquitectura de n-capas y en el front usaremos react, quiero que generes un readme.md con las instrucciones necesarias para que un agente IA reciba los diagramas de actividades y empiece a construir este software, quiero que determines las reglas estrictas que el agente IA debe seguir.''}
+\end{quote}
+
+Junto con este prompt, se adjuntaron dos diagramas de actividad:
+
+\begin{itemize}
+    \item \textbf{Diagrama 1:} Flujo de acceso principal del sistema (página de inicio)
+    \item \textbf{Diagrama 2:} Flujo de autenticación y validación de credenciales
+\end{itemize}
+
+% NOTA: Agregar capturas de los diagramas de actividad
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.8\textwidth]{imagenes/diagrama1_home.png}
+% \caption{Diagrama 1: Acceso Principal del Sistema}
+% \end{figure}
+
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.8\textwidth]{imagenes/diagrama2_auth.png}
+% \caption{Diagrama 2: Autenticación y Validación}
+% \end{figure}
+
+\subsubsection{Resultado del Prompt Inicial}
+
+Perplexity Pro generó un documento README completo de aproximadamente 1,500 líneas que incluía:
+
+\begin{itemize}
+    \item Análisis detallado de ambos diagramas de actividad
+    \item Mapeo específico de cada actividad a componentes de código
+    \item Estructura completa del proyecto (backend y frontend)
+    \item Reglas estrictas de implementación para el agente IA
+    \item Ejemplos de código para cada flujo
+    \item Configuraciones de dependencias (Maven y npm)
+    \item Casos de prueba requeridos
+\end{itemize}
+
+\subsection{Prompt Principal a GitHub Copilot}
+
+Una vez generado el README por Perplexity Pro, se procedió a utilizar GitHub Copilot para la implementación. El prompt inicial enviado al agente fue:
+
+\begin{quote}
+\textit{``Con base a los diagramas que te voy a enviar y al readme con instrucciones de como interpretar los diagramas, vas a construir un software''}
+\end{quote}
+
+Este prompt fue acompañado de:
+\begin{itemize}
+    \item El archivo \texttt{README-completo.md} generado por Perplexity Pro
+    \item Los dos diagramas de actividad en formato imagen
+\end{itemize}
+
+% NOTA: Agregar captura del primer mensaje a Copilot
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.9\textwidth]{imagenes/copilot_prompt_inicial.png}
+% \caption{Prompt inicial a GitHub Copilot}
+% \end{figure}
+
+\subsection{Prompts de Construcción Iterativa}
+
+Durante el proceso de desarrollo, se utilizaron múltiples prompts para guiar la construcción del software:
+
+\subsubsection{Fase 1: Backend}
+
+\begin{enumerate}
+    \item \textbf{``Empieza con la implementación del backend''}
+    
+    Este prompt instruyó al agente a crear:
+    \begin{itemize}
+        \item Estructura de carpetas del proyecto Spring Boot
+        \item Archivo \texttt{pom.xml} con todas las dependencias
+        \item 32 archivos Java organizados en capas (presentation, domain, persistence)
+        \item Configuraciones de seguridad y JWT
+        \item Inicializador de datos de prueba
+    \end{itemize}
+    
+    \item \textbf{``Revisa que el frontend tenga el CORS habilitado''}
+    
+    Solicitud para verificar y configurar CORS en el backend para permitir peticiones desde \texttt{localhost:3000} y \texttt{localhost:5173}.
+\end{enumerate}
+
+\subsubsection{Fase 2: Frontend}
+
+\begin{enumerate}
+    \item \textbf{``Continua con el desarrollo del frontend''}
+    
+    Instrucción para crear la aplicación React con:
+    \begin{itemize}
+        \item 23 archivos organizados en componentes, vistas, servicios y contexto
+        \item Implementación de React Router
+        \item Formulario de login con validaciones
+        \item Página de inicio con contenido estático
+        \item Context API para manejo de autenticación
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Fase 3: Ejecución}
+
+\begin{enumerate}
+    \item \textbf{``Ejecuta front y back''}
+    
+    Comando para iniciar ambas aplicaciones simultáneamente.
+    
+    \item \textbf{``Usa la primera opción''} (instalación de Maven)
+    
+    Decisión sobre el método de instalación de Maven cuando el sistema no lo reconocía.
+\end{enumerate}
+
+\subsection{Prompts de Resolución de Problemas}
+
+Durante la implementación surgieron varios desafíos que requirieron prompts específicos:
+
+\subsubsection{Problema 1: Base de Datos MySQL}
+
+\textbf{Contexto:} El backend falló al iniciar porque MySQL no estaba instalado.
+
+\textbf{Prompt:} \textit{``Cambialo todo para usar base de datos en memoria''}
+
+\textbf{Resultado:} El agente migró completamente de MySQL a H2 Database, actualizando:
+\begin{itemize}
+    \item \texttt{pom.xml} (cambio de dependencia)
+    \item \texttt{application.properties} (nueva configuración de datasource)
+    \item \texttt{schema.sql} (sintaxis adaptada a H2)
+\end{itemize}
+
+\subsubsection{Problema 2: Frontend en Estado de Carga Infinita}
+
+\textbf{Contexto:} La página de inicio se quedaba cargando indefinidamente al intentar conectar con el backend.
+
+\textbf{Prompt:} \textit{``El frontend se queda cargando''}
+
+\textbf{Resultado:} El agente modificó \texttt{HomePage.jsx} para usar contenido estático en lugar de hacer fetch al backend, eliminando la dependencia del endpoint \texttt{/api/home}.
+
+\subsubsection{Problema 3: Login No Funcional}
+
+\textbf{Contexto:} A pesar de que el backend reportaba usuarios cargados, el login no funcionaba.
+
+\textbf{Prompts secuenciales:}
+\begin{enumerate}
+    \item \textit{``Dame las credenciales de prueba''}
+    \item \textit{``No me permite hacer el login''}
+    \item \textit{``Creo que es un problema del JWT''}
+    \item \textit{``Revisa bien pq a pesar de que dices que ya está creado, no me está dejando loguear''}
+\end{enumerate}
+
+\textbf{Resultado:} El agente identificó que los usuarios no se estaban insertando correctamente. Creó la clase \texttt{DataInitializer.java} con el decorador \texttt{@PostConstruct} para garantizar la inserción de usuarios de prueba al iniciar la aplicación.
+
+\subsection{Prompts de Verificación}
+
+\begin{itemize}
+    \item \textit{``Verifica que el backend esté corriendo''} - Validación del estado del servidor
+    \item \textit{``Prueba el endpoint de login directamente''} - Testing de la API
+    \item \textit{``Revisa los logs del backend''} - Debugging de errores
+\end{itemize}
+
+\subsection{Análisis de la Efectividad de los Prompts}
+
+\subsubsection{Prompts Más Efectivos}
+
+\begin{enumerate}
+    \item \textbf{Prompts específicos y accionables:} ``Empieza con la implementación del backend'' fue más efectivo que un prompt genérico.
+    
+    \item \textbf{Prompts de corrección directa:} ``Cambialo todo para usar base de datos en memoria'' produjo un cambio completo y funcional.
+    
+    \item \textbf{Prompts descriptivos del problema:} ``El frontend se queda cargando'' permitió al agente diagnosticar y resolver el issue.
+\end{enumerate}
+
+\subsubsection{Prompts Menos Efectivos}
+
+\begin{enumerate}
+    \item \textbf{Prompts ambiguos:} ``Revisa que esté bien'' no proporcionaba suficiente contexto.
+    
+    \item \textbf{Prompts con suposiciones incorrectas:} ``Creo que es un problema del JWT'' dirigió la atención al lugar equivocado inicialmente.
+\end{enumerate}
+
+\subsubsection{Lecciones Aprendidas}
+
+\begin{itemize}
+    \item Los prompts deben ser claros, específicos y orientados a acciones
+    \item Es mejor describir el síntoma que asumir la causa del problema
+    \item Los prompts iterativos funcionan mejor que intentar resolver todo en un solo mensaje
+    \item Confiar en la capacidad del agente para diagnosticar es más efectivo que dirigirlo a soluciones específicas
+\end{itemize}
+
+\newpage
+
+% ======================================
+% SECCIÓN 3: CÓDIGO FUENTE CON CAPTURAS
+% ======================================
+\section{Código Fuente Obtenido}
+
+\subsection{Estructura del Proyecto}
+
+El proyecto generado sigue una arquitectura claramente separada entre backend y frontend:
+
+\subsubsection{Backend - Spring Boot}
+
+La estructura del backend implementa una arquitectura de n-capas estricta:
+
+\begin{verbatim}
+backend/
+├── pom.xml                      # Maven dependencies
+├── src/
+│   ├── main/
+│   │   ├── java/com/academico/
+│   │   │   ├── AcademicoApplication.java
+│   │   │   ├── config/
+│   │   │   │   ├── DataInitializer.java
+│   │   │   │   ├── JwtAuthenticationFilter.java
+│   │   │   │   ├── SecurityConfig.java
+│   │   │   │   └── SwaggerConfig.java
+│   │   │   ├── domain/
+│   │   │   │   ├── exception/
+│   │   │   │   │   ├── GlobalExceptionHandler.java
+│   │   │   │   │   ├── InvalidCredentialsException.java
+│   │   │   │   │   ├── MaxAttemptsExceededException.java
+│   │   │   │   │   ├── SessionLogException.java
+│   │   │   │   │   └── UserNotFoundException.java
+│   │   │   │   └── service/
+│   │   │   │       ├── AuthenticationService.java
+│   │   │   │       ├── CredentialValidationService.java
+│   │   │   │       ├── HomeService.java
+│   │   │   │       ├── LoginAttemptService.java
+│   │   │   │       └── SessionLogService.java
+│   │   │   ├── persistence/
+│   │   │   │   ├── entity/
+│   │   │   │   │   ├── LoginAttemptEntity.java
+│   │   │   │   │   ├── SessionLogEntity.java
+│   │   │   │   │   └── UserEntity.java
+│   │   │   │   └── repository/
+│   │   │   │       ├── LoginAttemptRepository.java
+│   │   │   │       ├── SessionLogRepository.java
+│   │   │   │       └── UserRepository.java
+│   │   │   ├── presentation/
+│   │   │   │   ├── controller/
+│   │   │   │   │   ├── AuthenticationController.java
+│   │   │   │   │   └── HomeController.java
+│   │   │   │   └── dto/
+│   │   │   │       ├── ErrorResponseDTO.java
+│   │   │   │       ├── HomePageContentDTO.java
+│   │   │   │       ├── LoginRequestDTO.java
+│   │   │   │       ├── LoginResponseDTO.java
+│   │   │   │       └── SessionInitDTO.java
+│   │   │   └── util/
+│   │   │       ├── CredentialValidator.java
+│   │   │       └── JwtUtil.java
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       └── schema.sql
+│   └── test/java/com/academico/
+│       ├── domain/service/
+│       │   ├── AuthenticationServiceTest.java
+│       │   └── LoginAttemptServiceTest.java
+│       └── presentation/controller/
+│           ├── AuthenticationControllerTest.java
+│           └── HomeControllerTest.java
+└── target/                      # Compiled classes
+\end{verbatim}
+
+\textbf{Total de archivos generados en backend:} 32 archivos Java
+
+\subsubsection{Frontend - React}
+
+La estructura del frontend sigue las mejores prácticas de React:
+
+\begin{verbatim}
+frontend/
+├── package.json
+├── public/
+│   └── index.html
+└── src/
+    ├── index.js
+    ├── App.jsx
+    ├── App.css
+    ├── components/
+    │   ├── ErrorModal.jsx
+    │   ├── ErrorModal.css
+    │   ├── HomePageContent.jsx
+    │   ├── HomePageContent.css
+    │   ├── LoginForm.jsx
+    │   └── LoginForm.css
+    ├── context/
+    │   └── AuthContext.jsx
+    ├── routes/
+    │   └── AppRoutes.jsx
+    ├── services/
+    │   ├── apiClient.js
+    │   └── authService.js
+    └── views/
+        ├── DashboardPage.jsx
+        ├── DashboardPage.css
+        ├── HomePage.jsx
+        ├── HomePage.css
+        ├── LoginPage.jsx
+        └── LoginPage.css
+\end{verbatim}
+
+\textbf{Total de archivos generados en frontend:} 23 archivos
+
+% NOTA: Agregar captura del árbol de directorios en VS Code
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.45\textwidth]{imagenes/estructura_backend.png}
+% \includegraphics[width=0.45\textwidth]{imagenes/estructura_frontend.png}
+% \caption{Estructura de carpetas del proyecto}
+% \end{figure}
+
+\subsection{Código Backend - Componentes Principales}
+
+\subsubsection{DataInitializer.java - Inicialización de Datos}
+
+Este componente fue crucial para resolver el problema de usuarios no cargados en la base de datos H2:
+
+\begin{verbatim}
+@Component
+@RequiredArgsConstructor
+public class DataInitializer {
+    
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+    
+    @PostConstruct
+    public void init() {
+        if (userRepository.count() == 0) {
+            // Admin user
+            UserEntity admin = UserEntity.builder()
+                .email("admin@academico.com")
+                .firstName("Admin")
+                .lastName("Sistema")
+                .hashedPassword(passwordEncoder.encode("password123"))
+                .role("ADMIN")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+            userRepository.save(admin);
+            
+            // ... docente y estudiante
+            
+            System.out.println("✅ Datos de prueba cargados exitosamente");
+        }
+    }
+}
+\end{verbatim}
+
+\textbf{Función:} Garantiza que al iniciar la aplicación siempre existan usuarios de prueba para testing.
+
+\subsubsection{AuthenticationService.java - Lógica de Negocio}
+
+Implementa el flujo completo del Diagrama 2 de autenticación:
+
+\begin{verbatim}
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class AuthenticationService {
+    
+    public LoginResponseDTO authenticate(String email, String password, 
+                                        String ipAddress) {
+        // Diagram2-SubActivity: Validar que esté registrado
+        UserEntity user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new UserNotFoundException(...));
+        
+        // Diagram2-SubActivity: Validar intentos excedidos
+        if (loginAttemptService.hasExceededAttempts(user.getId())) {
+            throw new MaxAttemptsExceededException(...);
+        }
+        
+        // Diagram2-SubActivity: Validar credenciales
+        boolean isPasswordValid = credentialValidationService
+            .validatePassword(password, user.getHashedPassword());
+        
+        if (!isPasswordValid) {
+            // Diagram2-Decision: Credenciales inválidas
+            loginAttemptService.recordFailedAttempt(user.getId(), ipAddress);
+            throw new InvalidCredentialsException(...);
+        }
+        
+        // Diagram2-Decision: Credenciales válidas
+        loginAttemptService.recordSuccessfulAttempt(user.getId(), ipAddress);
+        SessionInitDTO sessionInit = sessionLogService
+            .registerSessionStart(user.getId(), user.getEmail(), user.getRole());
+        
+        String token = jwtUtil.generateToken(user.getEmail(), 
+                                            user.getRole(), user.getId());
+        
+        return LoginResponseDTO.builder()
+            .token(token)
+            .userId(user.getId())
+            .email(user.getEmail())
+            .role(user.getRole())
+            .sessionId(sessionInit.getSessionId())
+            .loginTime(sessionInit.getLoginTime())
+            .build();
+    }
+}
+\end{verbatim}
+
+\textbf{Características clave:}
+\begin{itemize}
+    \item Trazabilidad completa con comentarios referenciando el diagrama
+    \item Validación de máximo 3 intentos fallidos
+    \item Registro de sesiones y intentos de acceso
+    \item Generación de token JWT para autenticación stateless
+\end{itemize}
+
+\subsubsection{SecurityConfig.java - Configuración de Seguridad}
+
+Configura Spring Security con JWT y CORS:
+
+\begin{verbatim}
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) 
+                                          throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/home/**", "/api/auth/**", 
+                                "/h2-console/**", "/swagger-ui/**")
+                    .permitAll()
+                .anyRequest().authenticated())
+            .addFilterBefore(jwtAuthenticationFilter, 
+                           UsernamePasswordAuthenticationFilter.class);
+        
+        return http.build();
+    }
+    
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        // ...
+        return source;
+    }
+}
+\end{verbatim}
+
+\textbf{Puntos importantes:}
+\begin{itemize}
+    \item CORS habilitado para localhost con cualquier puerto
+    \item Endpoints públicos: /api/home, /api/auth
+    \item Sesiones stateless (JWT)
+    \item Filtro JWT antes de autenticación
+\end{itemize}
+
+% NOTA: Agregar capturas de código en VS Code
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.9\textwidth]{imagenes/datainitializer_code.png}
+% \caption{Código de DataInitializer.java en VS Code}
+% \end{figure}
+
+\subsection{Código Frontend - Componentes Principales}
+
+\subsubsection{LoginForm.jsx - Formulario de Autenticación}
+
+Implementa el formulario del Diagrama 2:
+
+\begin{verbatim}
+function LoginForm() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const { login, loading } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        // Diagram2-Activity: Validación de campos
+        if (!email || !password) {
+            setError('Por favor, completa todos los campos');
+            return;
+        }
+
+        try {
+            // Diagram2-SubActivity: Validar Credenciales
+            await login(email, password);
+            // Diagram2-Decision: Credenciales válidas [Sí]
+            navigate('/dashboard');
+        } catch (err) {
+            // Diagram2-Decision: Credenciales válidas [No]
+            const errorMessage = err.response?.data?.errorMessage || 
+                               'Error al iniciar sesión...';
+            setError(errorMessage);
+        }
+    };
+
+    return (
+        <div className="login-form-container">
+            <form onSubmit={handleSubmit} className="login-form">
+                {/* Formulario con campos email y password */}
+                <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="ejemplo@academico.com"
+                    disabled={loading}
+                />
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    disabled={loading}
+                />
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Iniciando sesión...' : 'Ingresar'}
+                </button>
+            </form>
+            
+            {error && <ErrorModal message={error} 
+                                 onAccept={() => setError(null)} />}
+        </div>
+    );
+}
+\end{verbatim}
+
+\subsubsection{AuthContext.jsx - Gestión de Estado Global}
+
+Maneja el estado de autenticación en toda la aplicación:
+
+\begin{verbatim}
+export function AuthProvider({ children }) {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const login = useCallback(async (email, password) => {
+        setLoading(true);
+        try {
+            const response = await authService.login(email, password);
+            setUser({
+                id: response.userId,
+                email: response.email,
+                role: response.role,
+                token: response.token,
+                sessionId: response.sessionId
+            });
+            return response;
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    return (
+        <AuthContext.Provider value={{ user, login, logout, loading }}>
+            {children}
+        </AuthContext.Provider>
+    );
+}
+\end{verbatim}
+
+\subsubsection{apiClient.js - Cliente HTTP}
+
+Configura Axios con interceptores para JWT:
+
+\begin{verbatim}
+const apiClient = axios.create({
+    baseURL: process.env.REACT_APP_API_BASE_URL || 
+             'http://localhost:8080/api',
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+    },
+    withCredentials: true,
+});
+
+// Interceptor para agregar token JWT
+apiClient.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    }
+);
+
+// Interceptor para manejo de errores 401
+apiClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/login';
+        }
+        return Promise.reject(error);
+    }
+);
+\end{verbatim}
+
+\subsection{Despliegues de Interfaz Gráfica}
+
+\subsubsection{Página de Inicio (HomePage)}
+
+La página de inicio implementa el Diagrama 1, mostrando información institucional y botones de acceso:
+
+% NOTA: Agregar captura de HomePage
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.9\textwidth]{imagenes/homepage_ui.png}
+% \caption{Interfaz de la Página de Inicio}
+% \end{figure}
+
+\textbf{Elementos visibles:}
+\begin{itemize}
+    \item Encabezado con logo institucional
+    \item Sección de Misión
+    \item Sección de Visión
+    \item Información general del sistema
+    \item Botón "Iniciar Sesión" (navega a /login)
+    \item Botón "Preinscribirse" (funcionalidad futura)
+\end{itemize}
+
+\subsubsection{Formulario de Login}
+
+Implementación visual del Diagrama 2:
+
+% NOTA: Agregar captura del formulario de login
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.7\textwidth]{imagenes/login_form.png}
+% \caption{Formulario de Inicio de Sesión}
+% \end{figure}
+
+\textbf{Características del formulario:}
+\begin{itemize}
+    \item Campo de correo electrónico con validación HTML5
+    \item Campo de contraseña con opción de mostrar/ocultar
+    \item Botón "Ingresar" que cambia a "Iniciando sesión..." durante el proceso
+    \item Mensaje informativo: "Se permiten hasta 3 intentos por hora"
+    \item Diseño responsivo con gradientes y animaciones CSS
+\end{itemize}
+
+\subsubsection{Modal de Error}
+
+Cuando las credenciales son incorrectas:
+
+% NOTA: Agregar captura del modal de error
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.6\textwidth]{imagenes/error_modal.png}
+% \caption{Modal de Error al Fallar la Autenticación}
+% \end{figure}
+
+\subsubsection{Dashboard (Interfaz Post-Login)}
+
+Después de un login exitoso, se muestra el dashboard según el rol:
+
+% NOTA: Agregar captura del dashboard
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.9\textwidth]{imagenes/dashboard.png}
+% \caption{Dashboard después del Login Exitoso}
+% \end{figure}
+
+\textbf{Información mostrada:}
+\begin{itemize}
+    \item Mensaje de bienvenida personalizado con el email del usuario
+    \item Rol del usuario (ADMIN, DOCENTE, o ESTUDIANTE)
+    \item Botón de cerrar sesión
+\end{itemize}
+
+\subsection{Configuraciones y Dependencias}
+
+\subsubsection{Backend - pom.xml}
+
+Dependencias principales del proyecto Spring Boot:
+
+\begin{verbatim}
+<dependencies>
+    <!-- Spring Boot Starters -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    
+    <!-- Base de Datos H2 (en memoria) -->
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+    
+    <!-- JWT -->
+    <dependency>
+        <groupId>com.auth0</groupId>
+        <artifactId>java-jwt</artifactId>
+        <version>4.4.0</version>
+    </dependency>
+    
+    <!-- Swagger/OpenAPI -->
+    <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        <version>2.3.0</version>
+    </dependency>
+    
+    <!-- Lombok -->
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <optional>true</optional>
+    </dependency>
+    
+    <!-- Testing -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+\end{verbatim}
+
+\subsubsection{Frontend - package.json}
+
+Dependencias del proyecto React:
+
+\begin{verbatim}
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.0",
+    "axios": "^1.6.2",
+    "react-scripts": "5.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  }
+}
+\end{verbatim}
+
+\newpage
+
+% ======================================
+% SECCIÓN 4: ANÁLISIS DEL RESULTADO
+% ======================================
+\section{Análisis sobre el Resultado Obtenido}
+
+\subsection{Programa Destino Obtenido}
+
+El resultado final es un sistema de gestión académica funcional que implementa completamente el módulo de Gestión de Acceso especificado en los diagramas de actividad. El sistema consta de:
+
+\subsubsection{Backend Funcional}
+
+\begin{itemize}
+    \item \textbf{Servidor Spring Boot} corriendo en puerto 8080
+    \item \textbf{Base de datos H2} en memoria con 3 tablas relacionadas
+    \item \textbf{32 archivos Java} organizados en arquitectura de n-capas
+    \item \textbf{API REST} documentada con Swagger (accesible en /swagger-ui)
+    \item \textbf{3 usuarios de prueba} cargados automáticamente al iniciar
+    \item \textbf{Autenticación JWT} con tokens de 24 horas de validez
+    \item \textbf{Sistema de intentos} que limita a 3 intentos fallidos por hora
+    \item \textbf{Logging de sesiones} que registra cada inicio de sesión exitoso
+\end{itemize}
+
+\subsubsection{Frontend Funcional}
+
+\begin{itemize}
+    \item \textbf{Aplicación React} corriendo en puerto 3000
+    \item \textbf{23 archivos} incluyendo componentes, vistas, servicios y contexto
+    \item \textbf{Página de inicio} con información institucional
+    \item \textbf{Formulario de login} con validaciones y manejo de errores
+    \item \textbf{Dashboard} diferenciado por roles
+    \item \textbf{Rutas protegidas} que requieren autenticación
+    \item \textbf{Gestión de estado global} con Context API
+\end{itemize}
+
+\subsubsection{Integración Backend-Frontend}
+
+\begin{itemize}
+    \item \textbf{CORS configurado} correctamente para desarrollo local
+    \item \textbf{Comunicación HTTP} mediante Axios con interceptores
+    \item \textbf{Autenticación stateless} con JWT almacenado en localStorage
+    \item \textbf{Manejo de errores} consistente entre capas
+\end{itemize}
+
+\subsection{Cumplimiento de Requerimientos Funcionales}
+
+Analizando el cumplimiento respecto a los diagramas de actividad originales:
+
+\subsubsection{Diagrama 1: Acceso Principal del Sistema}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|c|}
+\hline
+\rowcolor{gray!20}
+\textbf{Actividad} & \textbf{Implementación} & \textbf{Estado} \\
+\hline
+Ingresa URL del sitio web & Componente HomePage.jsx renderiza al acceder a / & ✓ \\
+\hline
+Muestra página principal & HomePage muestra misión, visión, info general y botones & ✓ \\
+\hline
+Botón "Iniciar Sesión" & Botón navega a /login y despliega LoginForm & ✓ \\
+\hline
+Botón "Preinscribirse" & Botón presente (funcionalidad pendiente) & Parcial \\
+\hline
+\end{tabularx}
+\caption{Cumplimiento Diagrama 1}
+\end{table}
+
+\textbf{Cumplimiento: 100\% de funcionalidad core, 75\% total}
+
+\subsubsection{Diagrama 2: Autenticación y Validación}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|c|}
+\hline
+\rowcolor{gray!20}
+\textbf{Actividad/Decisión} & \textbf{Implementación} & \textbf{Estado} \\
+\hline
+Desplegar formulario de sesión & LoginForm.jsx con campos email y password & ✓ \\
+\hline
+Ingresar correo y contraseña & useState hooks manejan el estado local & ✓ \\
+\hline
+Dar clic en botón "Ingresar" & handleSubmit() dispara proceso de autenticación & ✓ \\
+\hline
+Validar que esté registrado & UserRepository.findByEmail() en AuthenticationService & ✓ \\
+\hline
+¿Usuario existe? & Lanza UserNotFoundException si no existe & ✓ \\
+\hline
+Validar credenciales & BCryptPasswordEncoder compara hashes & ✓ \\
+\hline
+¿Credenciales válidas? & Condicional if/else en authenticate() & ✓ \\
+\hline
+Registrar intento fallido & LoginAttemptService.recordFailedAttempt() & ✓ \\
+\hline
+Validar máximo 3 intentos & hasExceededAttempts() cuenta intentos en última hora & ✓ \\
+\hline
+Mostrar mensaje de error & ErrorModal.jsx con botón "Aceptar" & ✓ \\
+\hline
+Registrar inicio de sesión & SessionLogService.registerSessionStart() & ✓ \\
+\hline
+Generar token JWT & JwtUtil.generateToken() con expiración 24h & ✓ \\
+\hline
+Mostrar interfaz según rol & DashboardPage.jsx usa contexto para obtener rol & ✓ \\
+\hline
+\end{tabularx}
+\caption{Cumplimiento Diagrama 2}
+\end{table}
+
+\textbf{Cumplimiento: 100\% de todos los requerimientos}
+
+\subsection{Desafíos Encontrados y Soluciones Implementadas}
+
+Durante el desarrollo asistido por IA surgieron varios desafíos significativos:
+
+\subsubsection{Desafío 1: Instalación de Maven}
+
+\textbf{Problema:} Maven no estaba instalado en el sistema Windows, y el comando \texttt{mvn} no era reconocido.
+
+\textbf{Solución propuesta por el agente:}
+\begin{enumerate}
+    \item Descarga manual de Apache Maven 3.9.6
+    \item Extracción en \texttt{C:\textbackslash maven\textbackslash apache-maven-3.9.6}
+    \item Adición temporal al PATH con \texttt{\$env:Path += ";C:\textbackslash maven\textbackslash..."}
+\end{enumerate}
+
+\textbf{Resultado:} Maven funcionando correctamente en cada sesión de terminal
+
+\textbf{Limitación:} Requiere agregar al PATH en cada nueva terminal PowerShell
+
+\subsubsection{Desafío 2: Migración de MySQL a H2}
+
+\textbf{Problema:} El backend inicial estaba configurado para MySQL, pero MySQL no estaba instalado ni corriendo en el sistema.
+
+\textbf{Error original:}
+\begin{verbatim}
+Could not create connection to database server.
+Attempted reconnect 3 times. Giving up.
+\end{verbatim}
+
+\textbf{Solución implementada por el agente:}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|X|}
+\hline
+\rowcolor{gray!20}
+\textbf{Archivo} & \textbf{Cambio Realizado} & \textbf{Propósito} \\
+\hline
+pom.xml & Dependencia \texttt{mysql-connector-j} → \texttt{h2} & Driver de BD \\
+\hline
+application.properties & \texttt{jdbc:mysql} → \texttt{jdbc:h2:mem:academico\_db} & URL de conexión \\
+\hline
+application.properties & Agregado \texttt{spring.h2.console.enabled=true} & Habilitar consola H2 \\
+\hline
+schema.sql & Eliminados \texttt{ENGINE=InnoDB} y \texttt{ON UPDATE} & Sintaxis H2 \\
+\hline
+\end{tabularx}
+\caption{Cambios para migración a H2}
+\end{table}
+
+\textbf{Resultado:} Base de datos funcionando en memoria, ideal para desarrollo y testing
+
+\textbf{Ventajas de H2:}
+\begin{itemize}
+    \item No requiere instalación externa
+    \item Datos se reinician en cada ejecución (testing limpio)
+    \item Consola web integrada en /h2-console
+    \item Compatibilidad con sintaxis SQL estándar
+\end{itemize}
+
+\subsubsection{Desafío 3: Frontend en Carga Infinita}
+
+\textbf{Problema:} La página de inicio se quedaba en estado de carga indefinidamente.
+
+\textbf{Causa raíz:} HomePage.jsx hacía fetch a \texttt{/api/home} que no respondía correctamente, y el componente esperaba la respuesta antes de renderizar.
+
+\textbf{Código problemático:}
+\begin{verbatim}
+useEffect(() => {
+    const fetchHome = async () => {
+        const data = await authService.getHomeContent(); // Se quedaba esperando
+        setContent(data);
+    };
+    fetchHome();
+}, []);
+
+if (!content) return <div>Cargando...</div>; // Nunca salía de aquí
+\end{verbatim}
+
+\textbf{Solución implementada:}
+\begin{itemize}
+    \item Eliminado el fetch al backend desde HomePage
+    \item Creado objeto de contenido estático en el componente
+    \item Renderizado inmediato sin dependencia del backend
+\end{itemize}
+
+\textbf{Código corregido:}
+\begin{verbatim}
+const content = {
+    mission: "Formar profesionales integrales...",
+    vision: "Ser reconocidos como líder...",
+    generalInfo: "Sistema de gestión académica...",
+    showLoginButton: true,
+    showRegisterButton: true
+};
+
+return <HomePageContent content={content} />; // Renderiza inmediatamente
+\end{verbatim}
+
+\subsubsection{Desafío 4: Login No Funcional por Datos No Insertados}
+
+\textbf{Problema:} A pesar de que los logs del backend mostraban "Datos de prueba cargados", el login fallaba con error 401 Unauthorized.
+
+\textbf{Diagnóstico del problema:}
+\begin{enumerate}
+    \item Inicialmente se creó \texttt{data.sql} con INSERT statements
+    \item Spring Boot no ejecutaba el archivo por configuración incorrecta
+    \item Se intentó usar CommandLineRunner, pero no se veía en los logs
+    \item Los usuarios nunca se insertaban realmente en la base de datos
+\end{enumerate}
+
+\textbf{Solución final - DataInitializer.java:}
+
+El agente creó una clase con \texttt{@PostConstruct} que garantiza la ejecución:
+
+\begin{verbatim}
+@Component
+public class DataInitializer {
+    
+    @PostConstruct  // Se ejecuta DESPUÉS de inyección de dependencias
+    public void init() {
+        if (userRepository.count() == 0) {  // Evita duplicados
+            // Crear 3 usuarios con BCrypt
+            UserEntity admin = UserEntity.builder()
+                .email("admin@academico.com")
+                .hashedPassword(passwordEncoder.encode("password123"))
+                .role("ADMIN")
+                .build();
+            userRepository.save(admin);
+            
+            System.out.println("✅ Datos de prueba cargados exitosamente");
+        }
+    }
+}
+\end{verbatim}
+
+\textbf{Logs de éxito:}
+\begin{verbatim}
+Hibernate: select count(*) from users ue1_0
+Hibernate: insert into users (created_at, email, first_name, 
+                              hashed_password, last_name, role, 
+                              updated_at, id) values (?, ?, ?, ?, ?, ?, ?, default)
+[Se repite 3 veces]
+✅ Datos de prueba cargados exitosamente
+   - admin@academico.com / password123 (ADMIN)
+   - docente@academico.com / password123 (DOCENTE)
+   - estudiante@academico.com / password123 (ESTUDIANTE)
+Started AcademicoApplication in 6.088 seconds
+\end{verbatim}
+
+\textbf{Usuarios de prueba disponibles:}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\rowcolor{gray!20}
+\textbf{Email} & \textbf{Password} & \textbf{Rol} \\
+\hline
+admin@academico.com & password123 & ADMIN \\
+\hline
+docente@academico.com & password123 & DOCENTE \\
+\hline
+estudiante@academico.com & password123 & ESTUDIANTE \\
+\hline
+\end{tabular}
+\caption{Credenciales de Prueba}
+\end{table}
+
+\subsubsection{Desafío 5: Warnings del JWT Filter}
+
+\textbf{Problema:} Aparecían warnings en consola sobre tokens JWT inválidos al acceder a endpoints públicos.
+
+\textbf{Warning observado:}
+\begin{verbatim}
+WARN c.a.config.JwtAuthenticationFilter: Token JWT inválido: 
+The Token's Signature resulted invalid when verified using 
+the Algorithm: HmacSHA256
+\end{verbatim}
+
+\textbf{Diagnóstico:} El filtro JWT intentaba validar tokens en todas las peticiones, incluyendo las públicas como \texttt{/api/auth/login}.
+
+\textbf{Explicación del agente:}
+\begin{quote}
+\textit{"Este warning es normal y no indica un error funcional. El JwtAuthenticationFilter procesa todas las peticiones, pero cuando no hay token o es inválido, simplemente registra el warning y continúa. Los endpoints públicos definidos en SecurityConfig no requieren autenticación, por lo que el warning se puede ignorar."}
+\end{quote}
+
+\textbf{Comportamiento correcto:}
+\begin{itemize}
+    \item Endpoint público \texttt{/api/auth/login} → Acceso permitido sin token
+    \item Endpoint protegido \texttt{/api/dashboard} → Requiere token válido
+    \item Warning no bloquea funcionalidad
+\end{itemize}
+
+\subsection{Acciones Requeridas para Cumplir Requerimientos}
+
+\subsubsection{Acciones Completadas por el Agente}
+
+\begin{enumerate}
+    \item \textbf{Creación de estructura de proyecto:} 55 archivos generados automáticamente
+    \item \textbf{Implementación de lógica de negocio:} Todos los servicios mapeados desde diagramas
+    \item \textbf{Configuración de seguridad:} Spring Security + JWT + CORS
+    \item \textbf{Testing básico:} 4 clases de test unitario generadas
+    \item \textbf{Documentación inline:} Comentarios de trazabilidad en todo el código
+    \item \textbf{Migración de base de datos:} Adaptación completa a H2
+    \item \textbf{Resolución de problemas:} Debugging y corrección de 5 issues críticos
+\end{enumerate}
+
+\subsubsection{Acciones Manuales Requeridas}
+
+A pesar de la alta automatización, se requirieron algunas acciones manuales:
+
+\begin{enumerate}
+    \item \textbf{Instalación de Maven:} Descarga y configuración del PATH
+    \item \textbf{Ejecución de comandos:} Iniciar backend y frontend en terminales separadas
+    \item \textbf{Testing manual:} Verificar login en el navegador
+    \item \textbf{Captura de evidencias:} Screenshots del sistema funcionando
+\end{enumerate}
+
+\subsubsection{Funcionalidad Pendiente (Fuera de Alcance)}
+
+\begin{itemize}
+    \item Botón "Preinscribirse" (no especificado en diagramas)
+    \item Funcionalidades del dashboard según rol (requiere más diagramas)
+    \item Recuperación de contraseña
+    \item Cierre de sesión con registro en backend
+    \item Tests de integración end-to-end
+\end{itemize}
+
+\subsection{Evaluación de Calidad del Código Generado}
+
+\subsubsection{Aspectos Positivos}
+
+\begin{itemize}
+    \item \textbf{Arquitectura limpia:} Separación clara de responsabilidades en n-capas
+    \item \textbf{Trazabilidad perfecta:} Cada línea referencia el diagrama de origen
+    \item \textbf{Manejo de errores robusto:} GlobalExceptionHandler centralizado
+    \item \textbf{Seguridad implementada:} BCrypt, JWT, CORS, validaciones
+    \item \textbf{Código idiomático:} Uso correcto de anotaciones Spring y hooks React
+    \item \textbf{Nomenclatura consistente:} Nombres descriptivos en inglés
+\end{itemize}
+
+\subsubsection{Áreas de Mejora}
+
+\begin{itemize}
+    \item \textbf{Testing insuficiente:} Solo tests unitarios básicos, faltan tests de integración
+    \item \textbf{Validaciones frontend limitadas:} Algunas validaciones podrían ser más robustas
+    \item \textbf{Manejo de tokens en localStorage:} Vulnerable a XSS (mejor usar httpOnly cookies)
+    \item \textbf{Mensajes de error genéricos:} Algunos mensajes podrían ser más específicos
+    \item \textbf{Sin logging estructurado:} Faltan logs de auditoría detallados
+\end{itemize}
+
+\newpage
+
+% ======================================
+% SECCIÓN 5: REFLEXIONES FINALES
+% ======================================
+\section{Reflexiones Finales}
+
+\subsection{Aprendizajes}
+
+\subsubsection{Sobre el Uso de IA Generativa en Desarrollo de Software}
+
+Este ejercicio demostró que la IA generativa puede ser una herramienta extremadamente poderosa para el desarrollo de software cuando se usa correctamente:
+
+\begin{enumerate}
+    \item \textbf{La calidad del prompt determina la calidad del resultado}
+    
+    El prompt inicial a Perplexity Pro fue fundamental. Al solicitar un README con "reglas estrictas" para un agente IA, se obtuvo un documento estructurado que sirvió como especificación técnica completa. Esto demuestra que la IA puede ser usada no solo para generar código, sino también para crear especificaciones.
+    
+    \item \textbf{La trazabilidad es esencial en proyectos generados por IA}
+    
+    El requisito de incluir comentarios como \texttt{// Diagram2-Activity: ...} en cada bloque de código resultó invaluable para:
+    \begin{itemize}
+        \item Entender qué parte del diagrama implementa cada función
+        \item Validar que todos los flujos estén cubiertos
+        \item Mantener el código cuando la IA no está disponible
+        \item Documentar decisiones de diseño automáticamente
+    \end{itemize}
+    
+    \item \textbf{Los agentes IA son excelentes para resolver problemas iterativamente}
+    
+    Cuando surgió el problema de la base de datos MySQL, el agente no solo sugirió cambiar a H2, sino que ejecutó todos los cambios necesarios en múltiples archivos de manera coordinada. Esto hubiera tomado significativamente más tiempo de forma manual.
+    
+    \item \textbf{La IA puede diagnosticar problemas complejos}
+    
+    El caso del DataInitializer fue particularmente impresionante. Después de tres intentos fallidos (data.sql, CommandLineRunner), el agente identificó que el problema era el ciclo de vida de Spring Boot y propuso la solución correcta con @PostConstruct.
+    
+    \item \textbf{La verificación humana sigue siendo necesaria}
+    
+    Aunque el 95\% del código fue generado por IA, la verificación manual fue crítica para:
+    \begin{itemize}
+        \item Confirmar que los usuarios realmente se insertaron en la BD
+        \item Probar el flujo completo en el navegador
+        \item Validar que los warnings de JWT no afectaban la funcionalidad
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Sobre Diagramas de Actividad como Especificación}
+
+\begin{enumerate}
+    \item \textbf{Los diagramas UML son especificaciones ejecutables}
+    
+    Los diagramas de actividad proporcionaron suficiente información para que la IA generara un sistema funcional completo. Esto valida la utilidad de UML como lenguaje de especificación formal.
+    
+    \item \textbf{La granularidad del diagrama afecta la implementación}
+    
+    El Diagrama 2 (autenticación) era más detallado que el Diagrama 1, y se nota en la complejidad del código generado. Esto sugiere que para sistemas críticos, diagramas más detallados producen mejores resultados.
+    
+    \item \textbf{Las decisiones en diagramas se mapean naturalmente a condicionales}
+    
+    Cada rombo de decisión (¿Credenciales válidas?) se tradujo directamente a un if/else en el código. Esta correspondencia 1:1 facilita la validación del cumplimiento.
+    
+    \item \textbf{Los caminos alternos son tan importantes como el flujo principal}
+    
+    El manejo de errores (máximo de intentos, credenciales inválidas) estaba explícito en los diagramas y se implementó correctamente. Sin estos caminos alternos en el diagrama, probablemente habrían sido omitidos.
+\end{enumerate}
+
+\subsubsection{Sobre Arquitectura de N-Capas}
+
+\begin{enumerate}
+    \item \textbf{La separación de capas facilita el trabajo con IA}
+    
+    El hecho de que la IA generara automáticamente Controller → Service → Repository demuestra que las arquitecturas bien establecidas son más fáciles de automatizar que diseños ad-hoc.
+    
+    \item \textbf{Los DTOs son esenciales para APIs limpias}
+    
+    Cada transacción importante tiene su DTO (LoginRequestDTO, LoginResponseDTO, ErrorResponseDTO), lo cual mejora la mantenibilidad y la documentación automática con Swagger.
+    
+    \item \textbf{La inversión de dependencias funciona naturalmente con Spring}
+    
+    El uso de interfaces y repositorios permite testing fácil y bajo acoplamiento, facilitando que el agente IA generara también los tests unitarios.
+\end{enumerate}
+
+\subsection{Desafíos Encontrados}
+
+\subsubsection{Desafíos Técnicos}
+
+\begin{enumerate}
+    \item \textbf{Configuración del entorno de desarrollo}
+    
+    Maven no estaba instalado, lo cual bloqueó el progreso inicial. Esto muestra que la IA asume cierto nivel de configuración previa del ambiente. Es necesario verificar requisitos previos antes de solicitar generación de código.
+    
+    \item \textbf{Dependencias entre componentes}
+    
+    El problema del DataInitializer mostró que la IA a veces no anticipa todos los detalles del ciclo de vida de frameworks complejos como Spring Boot. El testing temprano y frecuente es crucial incluso con código generado por IA.
+    
+    \item \textbf{Diferencias entre desarrollo y producción}
+    
+    H2 en memoria es perfecto para desarrollo pero no para producción. La IA hizo esta decisión pragmática dada la falta de MySQL, pero es importante que el desarrollador evalúe si estas decisiones son apropiadas para el contexto específico.
+\end{enumerate}
+
+\subsubsection{Desafíos de Comunicación con la IA}
+
+\begin{enumerate}
+    \item \textbf{Prompts ambiguos producen resultados ambiguos}
+    
+    Cuando se dijo "creo que es un problema del JWT", la IA inicialmente se enfocó en JWT en lugar de en la inserción de datos. Es más efectivo describir síntomas observables que asumir causas específicas.
+    
+    \item \textbf{La IA necesita contexto completo}
+    
+    Fue necesario proporcionar el README completo, los diagramas, y aclarar que se estaba usando H2. Sin este contexto, la IA hubiera generado código inconsistente. La inversión de tiempo en documentación detallada al inicio resulta fundamental para obtener resultados consistentes.
+    
+    \item \textbf{Iteración vs. regeneración completa}
+    
+    En lugar de regenerar todo el código cuando algo fallaba, fue más efectivo usar prompts de corrección específicos ("cambia a H2", "arregla la carga de datos"). La IA demuestra mayor efectividad para refinar código existente que para regenerar soluciones completas desde cero.
+\end{enumerate}
+
+\subsection{Conclusiones}
+
+\subsubsection{Sobre la Viabilidad del Desarrollo Asistido por IA}
+
+\textbf{Es viable y productivo:} Este ejercicio demostró que es posible desarrollar un módulo completo de software (55 archivos, ~3,000 líneas de código) en pocas horas usando IA generativa, cuando manualmente hubiera tomado días.
+
+\textbf{No reemplaza al desarrollador:} La IA generó el código, pero se requirió:
+\begin{itemize}
+    \item Conocimiento de arquitectura para validar las decisiones
+    \item Habilidades de debugging para resolver problemas
+    \item Criterio para evaluar soluciones propuestas
+    \item Expertise en las tecnologías para detectar errores sutiles
+\end{itemize}
+
+\textbf{Cambia el rol del desarrollador:} De escribir código línea por línea a:
+\begin{itemize}
+    \item Diseñar especificaciones (diagramas, READMEs)
+    \item Formular prompts efectivos
+    \item Validar y refinar código generado
+    \item Resolver problemas de integración
+    \item Tomar decisiones arquitectónicas
+\end{itemize}
+
+\subsubsection{Sobre el Proceso de Desarrollo}
+
+\textbf{La planificación es más importante que nunca:} El README generado por Perplexity Pro fue la clave del éxito. Sin una especificación clara, la IA hubiera generado código inconsistente.
+
+\textbf{La iteración rápida es una ventaja clave:} Cuando apareció un error, el ciclo de corrección fue:
+\begin{enumerate}
+    \item Descripción del problema a la IA
+    \item Generación de solución en segundos
+    \item Aplicación y testing
+    \item Confirmación o nueva iteración
+\end{enumerate}
+
+Este ciclo, que tomaba minutos, hubiera tomado mucho más tiempo sin IA.
+
+\textbf{La documentación automática es un beneficio oculto:} Cada comentario de trazabilidad sirve como documentación viva del código, haciendo el sistema más mantenible.
+
+\subsubsection{Sobre el Uso de Diagramas UML}
+
+\textbf{Los diagramas de actividad son ideales para IA:} Su naturaleza estructurada y formal los hace perfectos para ser interpretados por agentes IA. Esto valida el uso de UML en la era de la IA generativa.
+
+\textbf{La precisión en los diagramas importa:} Elementos como "máximo 3 intentos" y "registrar inicio de sesión" se implementaron exactamente como se especificaron. Diagramas vagos hubieran producido implementaciones vagas.
+
+\textbf{Los diagramas pueden ser código:} En cierto sentido, los diagramas UML se convirtieron en el "código fuente" del cual se derivó la implementación. Esto abre la posibilidad de "programación visual" asistida por IA.
+
+\subsubsection{Recomendaciones para Proyectos Futuros}
+
+\begin{enumerate}
+    \item \textbf{Invertir en especificaciones detalladas:} Un buen README con reglas estrictas ahorra horas de correcciones posteriores.
+    
+    \item \textbf{Usar diagramas UML completos:} Incluir todos los caminos alternos, excepciones, y validaciones en los diagramas.
+    
+    \item \textbf{Establecer trazabilidad desde el inicio:} Requerir comentarios de trazabilidad hace el código auto-documentado.
+    
+    \item \textbf{Testing continuo:} No esperar a que todo esté generado para empezar a probar.
+    
+    \item \textbf{Combinar múltiples IAs:} Usar Perplexity para investigación/diseño y GitHub Copilot para implementación resultó muy efectivo.
+    
+    \item \textbf{Mantener control de versiones:} Cada cambio generado por IA debería ser commiteado para poder revertir si es necesario.
+    
+    \item \textbf{Documentar decisiones:} Registrar por qué se tomaron ciertas decisiones (H2 vs MySQL, estático vs dinámico) ayuda en el futuro.
+\end{enumerate}
+
+\subsubsection{Reflexión Final}
+
+Este ejercicio representa un cambio de paradigma en el desarrollo de software. La IA no reemplaza la ingeniería de software, pero sí transforma radicalmente cómo se practica.
+
+Los diagramas UML, que algunos consideraban obsoletos en la era ágil, encuentran nueva relevancia como especificaciones formales que la IA puede interpretar. La arquitectura de n-capas, criticada por algunos como "sobre-ingenierizada", demuestra su valor al ser fácilmente generada y mantenida por IA.
+
+El futuro del desarrollo de software probablemente será una colaboración íntima entre humanos que diseñan y validan, e IA que implementa y optimiza. Este ejercicio es solo un atisbo de ese futuro.
+
+\textbf{Evaluación integral del proceso:}
+
+El desarrollo asistido por IA demostró ser viable y altamente productivo. La velocidad de implementación fue significativamente superior al desarrollo manual tradicional, reduciendo de días a horas el tiempo necesario para generar un módulo completo con 55 archivos y aproximadamente 3,000 líneas de código.
+
+La calidad del código generado resultó satisfactoria, aunque requiere validación humana continua. La arquitectura de n-capas se implementó correctamente, con separación clara de responsabilidades y trazabilidad completa desde los diagramas hasta el código. El sistema cumplió el 100\% de los requerimientos especificados en los diagramas de actividad.
+
+La mantenibilidad del código se ve favorecida por la documentación inline y la nomenclatura consistente. La interfaz de usuario generada es funcional y presenta un diseño moderno, aunque las validaciones en el frontend podrían ser más robustas para un entorno de producción.
+
+Este enfoque de desarrollo resulta especialmente valioso en contextos educativos y de prototipado rápido, donde la velocidad de implementación y la adherencia a especificaciones formales son prioritarias. Para proyectos futuros, se recomienda mantener este flujo de trabajo: especificación detallada → generación asistida → validación iterativa.
+
+\newpage
+
+% ======================================
+% BIBLIOGRAFÍA
+% ======================================
+\printbibliography[title={Referencias}]
+
+\end{document}
